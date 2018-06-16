@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app 
+  xmlns="http://java.sun.com/xml/ns/javaee"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
+  version="3.0">
+  
+  <welcome-file-list>
+        <welcome-file>index.html</welcome-file>
+        <welcome-file>index.htm</welcome-file>
+        <welcome-file>index.jsp</welcome-file>
+        <welcome-file>accesPublic.jsp</welcome-file>
+    </welcome-file-list>
+
+
+    <servlet>
+		<servlet-name>Inscription</servlet-name>
+		<servlet-class>com.sdzee.servlets.Inscription</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>Inscription</servlet-name>
+		<url-pattern>/inscription</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+
+        <servlet-name>Visite</servlet-name>
+
+        <servlet-class>com.sdzee.servlets.Visite</servlet-class>
+
+    </servlet>
+
+
+    <servlet-mapping>
+
+        <servlet-name>Visite</servlet-name>
+
+        <url-pattern>/visite</url-pattern>
+
+    </servlet-mapping>
+    
+    	<servlet>
+
+        <servlet-name>Ajout</servlet-name>
+
+        <servlet-class>com.sdzee.servlets.Ajout</servlet-class>
+
+    </servlet>
+
+
+    <servlet-mapping>
+
+        <servlet-name>Ajout</servlet-name>
+
+        <url-pattern>/ajout</url-pattern>
+
+    </servlet-mapping>
+    <servlet>
+		<servlet-name>Connexion</servlet-name>
+		<servlet-class>com.sdzee.servlets.Connexion</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>Connexion</servlet-name>
+		<url-pattern>/connexion</url-pattern>
+	</servlet-mapping>
+	
+    <servlet>
+		<servlet-name>Presentation</servlet-name>
+		<servlet-class>com.sdzee.servlets.Presentation</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>Presentation</servlet-name>
+		<url-pattern>/presentation</url-pattern>
+	</servlet-mapping>
+	
+	
+	<servlet>
+		<servlet-name>Raccourcir</servlet-name>
+		<servlet-class>com.sdzee.servlets.Raccourcir</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>Raccourcir</servlet-name>
+		<url-pattern>/raccourcir</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>Link</servlet-name>
+		<servlet-class>com.sdzee.servlets.Link</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>Link</servlet-name>
+		<url-pattern>/link</url-pattern>
+	</servlet-mapping>
+	
+<servlet>
+	<servlet-name>Deconnexion</servlet-name>
+	<servlet-class>com.sdzee.servlets.Deconnexion</servlet-class>
+</servlet>
+
+
+<servlet-mapping>
+	<servlet-name>Deconnexion</servlet-name>
+	<url-pattern>/deconnexion</url-pattern>
+</servlet-mapping>
+
+<servlet>
+	<servlet-name>Suppression</servlet-name>
+	<servlet-class>com.sdzee.servlets.Suppression</servlet-class>
+</servlet>
+
+
+<servlet-mapping>
+	<servlet-name>Suppression</servlet-name>
+	<url-pattern>/suppression</url-pattern>
+</servlet-mapping>
+
+<servlet>
+	<servlet-name>Restriction</servlet-name>
+	<servlet-class>com.sdzee.servlets.Restriction</servlet-class>
+</servlet>
+
+<servlet-mapping>
+	<servlet-name>Restriction</servlet-name>
+	<url-pattern>/restriction</url-pattern>
+</servlet-mapping>
+
+<servlet>
+	<servlet-name>GestionTestJDBC</servlet-name>
+	<servlet-class>com.sdzee.servlets.GestionTestJDBC</servlet-class>
+</servlet>
+
+<servlet-mapping>
+	<servlet-name>GestionTestJDBC</servlet-name>
+	<url-pattern>/testjdbc</url-pattern>
+</servlet-mapping>
+<error-page>
+       <error-code>404</error-code>
+       <location>/error404.html</location>
+   </error-page>
+<context-param>
+        <param-name>db-url</param-name>
+        <param-value>jdbc:mysql://localhost:3306/java</param-value>
+    </context-param>
+    <context-param>
+        <param-name>db-user</param-name>
+        <param-value>toto</param-value>
+    </context-param>
+    <context-param>
+        <param-name>db-password</param-name>
+        <param-value>toto</param-value>
+    </context-param>
+
+
+</web-app>

@@ -8,6 +8,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.sdzee.beans.Lien;
 import com.sdzee.beans.Utilisateur;
 
 public final class ConnexionForm {
@@ -52,7 +53,6 @@ public final class ConnexionForm {
         //verif base
         try {
 			Class.forName("com.mysql.jdbc.Driver");
-			System.out.println(request.getServletContext().getInitParameter("db-user"));
 			java.sql.Connection conn = DriverManager.getConnection(request.getServletContext().getInitParameter("db-url"), request.getServletContext().getInitParameter("db-user"), request.getServletContext().getInitParameter("db-password"));
 			//System.out.println("ok");
 
@@ -68,12 +68,12 @@ public final class ConnexionForm {
 				 setErreur( CHAMP_PASS, "Utilisateur ou mot de passe incorrecte");
 			} else {
 				 resultat = "Succès de la connexion.";
+		          int id = rs.getInt( "id" );
+		          utilisateur.setId(id);
+
+				
 			}
-			
-			//while (rs.next()) {
-			//	System.out.println(rs.getString("nomEtudiant"));
-			//}
-			//System.out.println(rs);
+
 			rs.close();
 			pst.close();
 

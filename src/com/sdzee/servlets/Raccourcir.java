@@ -10,6 +10,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import com.sdzee.beans.Utilisateur;
 @WebServlet("/Raccourcir")
 public class Raccourcir extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -44,10 +47,23 @@ public class Raccourcir extends HttpServlet {
 			
 			
 
-			String query1 = "insert into Lien (url_full, url_short) values (?, ?)";
+			String query1 = "insert into Lien (url_full, url_short, id_user) values (?, ?, ?)";
 			PreparedStatement pst1 = conn.prepareStatement(query1);
 			pst1.setString(1, url);
 			pst1.setString(2, url_short);
+			
+			HttpSession session = request.getSession();
+			System.out.println("session = "+session);
+			int id_current = 0;
+			 if ( session.getAttribute( "sessionUtilisateur" ) != null ) {
+				 
+				Utilisateur user_current = (Utilisateur) session.getAttribute(  "sessionUtilisateur" );
+		        id_current = user_current.getId();
+		       
+		     } 
+			 System.out.println("id = "+id_current);
+			 pst1.setInt(3, id_current);
+			
 			pst1.execute();
 			pst1.close();
 

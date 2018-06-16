@@ -2,10 +2,18 @@ package com.sdzee.beans;
 
 public class Utilisateur {
 
+	private int id;
     private String email;
     private String motDePasse;
     private String nom;
 
+    public void setId(int id) {
+    		this.id = id;
+    }
+    public int getId() {
+    		return id;
+    }
+    
     public void setEmail(String email) {
 	this.email = email;
     }

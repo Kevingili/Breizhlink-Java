@@ -9,6 +9,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import com.sdzee.beans.Utilisateur;
 
 /**
  * Servlet implementation class Ajout
@@ -16,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/Ajout")
 public class Ajout extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	public static final String VUE = "/restriction";
+	public static final String VUE = "/connexion";
 	public static final String CHAMP_EMAIL = "email";
 	public static final String CHAMP_MDP = "mdp";
        
@@ -64,6 +67,7 @@ public class Ajout extends HttpServlet {
 			PreparedStatement pst1 = conn.prepareStatement(query1);
 			pst1.setString(1, email);
 			pst1.setString(2, mdp);
+			   
 			pst1.execute();
 			pst1.close();
 

@@ -19,7 +19,6 @@ public class Connexion extends HttpServlet {
     public static final String ATT_SESSION_USER = "sessionUtilisateur";
     public static final String VUE              = "/WEB-INF/connexion.jsp";
     public static final String VUE2              = "/restriction";
-
     public void doGet( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException {
         /* Affichage de la page de connexion */
     		
