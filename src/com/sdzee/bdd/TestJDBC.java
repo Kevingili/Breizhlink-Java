@@ -49,11 +49,13 @@ public class TestJDBC {
                 String url_full = resultat.getString( "url_full" );
                 String url_short = resultat.getString( "url_short" );
                 String date_creation = resultat.getString( "date_creation" );
+                int nbclique = resultat.getInt( "nb_clique" );
 
                 Lien lien_temp = new Lien();
                 lien_temp.setUrlfull(url_full);
                 lien_temp.setUrlshort(url_short);
                 lien_temp.setDatecreation(date_creation);
+                lien_temp.setNbclique(nbclique);
                 liens.add(lien_temp);
             }
         } catch ( SQLException e ) {

@@ -20,18 +20,17 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet("/Link")
 public class Link extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	public static final String VUE = "/WEB-INF/link.jsp";
 
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("Passage dans le raccourci");
 		String id = request.getParameter("id");
-		System.out.println(id);
-		
 		String lien_full = "";
+		String password = "";
+		String lien_short = "";
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			java.sql.Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/java", "toto", "toto");
-			System.out.println("ok");
 
 			String query1 = "SELECT * FROM Lien WHERE url_short = ?";
 			PreparedStatement pst1 = conn.prepareStatement(query1);
@@ -40,8 +39,56 @@ public class Link extends HttpServlet {
 			ResultSet rs = pst1.executeQuery();
 
 			while (rs.next()) {
-				System.out.println(rs.getString("url_full"));
 				lien_full = rs.getString("url_full");
+				lien_short = rs.getString("url_short");
+				password = rs.getString("password_url");
+			}
+			rs.close();
+			pst1.close();
+			
+			String query2 = "UPDATE Lien SET nb_clique = nb_clique+1 WHERE url_short = ?";
+			PreparedStatement pst2 = conn.prepareStatement(query2);
+			pst2.setString(1, lien_short);
+			   
+			pst2.execute();
+			pst2.close();
+
+		} catch (Exception e) {
+			System.out.println("pas ok " + e);
+		}
+
+	      if(password == "") {
+	    	  	response.sendRedirect(lien_full);
+	      } else {
+	    	  request.setAttribute("url", lien_short);
+	    	  	this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );
+	      }
+		
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String password_url = request.getParameter("password");
+		String url_short = request.getParameter("url_short");
+		String lien_full = "";
+		String password = "";
+		
+		System.out.println("password_url = "+password_url);
+		System.out.println("url_short = "+url_short);
+		
+		//Verif en base
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			java.sql.Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/java", "toto", "toto");
+
+			String query1 = "SELECT * FROM Lien WHERE url_short = ?";
+			PreparedStatement pst1 = conn.prepareStatement(query1);
+			pst1.setString(1, url_short);
+			
+			ResultSet rs = pst1.executeQuery();
+
+			while (rs.next()) {
+				lien_full = rs.getString("url_full");
+				password = rs.getString("password_url");
 			}
 			rs.close();
 			pst1.close();
@@ -49,15 +96,19 @@ public class Link extends HttpServlet {
 		} catch (Exception e) {
 			System.out.println("pas ok " + e);
 		}
-	       
-	        
-	        System.out.println("Lien =" +lien_full);
+
+	   
+		//Si ok redirection sur url full
+		//Si pas ok, redirection page saisi mot de passe
+		   if(password.equals(password_url)) {
+	    	  	response.sendRedirect(lien_full);
+	      } else {
+	    	  request.setAttribute("mdpwrong", "mot de passe incorrecte");
+	    	  request.setAttribute("url", url_short);
+	    	  	this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );
+	      }
 		
-		response.sendRedirect(lien_full);
-	}
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+		
 	}
 
 }
