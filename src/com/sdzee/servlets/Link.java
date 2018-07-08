@@ -28,6 +28,10 @@ public class Link extends HttpServlet {
 		String lien_full = "";
 		String password = "";
 		String lien_short = "";
+		int nb_clique = 0;
+		int nb_max_clique = 0;
+		boolean verif_clique_is_ok = false;
+		System.out.println("bool = "+verif_clique_is_ok);
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			java.sql.Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/java", "toto", "toto");
@@ -42,6 +46,8 @@ public class Link extends HttpServlet {
 				lien_full = rs.getString("url_full");
 				lien_short = rs.getString("url_short");
 				password = rs.getString("password_url");
+				nb_clique = rs.getInt("nb_clique");
+				nb_max_clique = rs.getInt("max_nb_clique");
 			}
 			rs.close();
 			pst1.close();
@@ -56,12 +62,28 @@ public class Link extends HttpServlet {
 		} catch (Exception e) {
 			System.out.println("pas ok " + e);
 		}
-
-	      if(password == "") {
+		
+		System.out.println("nb_max_clique = "+nb_max_clique);
+		System.out.println("clique = "+nb_clique);
+		
+		if(nb_max_clique == 0) {
+			verif_clique_is_ok = true;
+		} else if(nb_max_clique > nb_clique) {
+			verif_clique_is_ok = true;
+		}
+		
+		System.out.println("verif = " + verif_clique_is_ok);
+		
+	      if(password == "" && verif_clique_is_ok == true) {
 	    	  	response.sendRedirect(lien_full);
 	      } else {
 	    	  request.setAttribute("url", lien_short);
-	    	  	this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );
+	    	  if(verif_clique_is_ok == false) {
+	    		  request.setAttribute("maxclique", "Désolée, cette URL n'est plus disponible");
+	    	  }
+	    		
+	    	  	
+	    	  this.getServletContext().getRequestDispatcher( VUE ).forward( request, response );
 	      }
 		
 	}

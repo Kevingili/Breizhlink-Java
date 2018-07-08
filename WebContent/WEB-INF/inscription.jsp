@@ -3,12 +3,12 @@
     <form action="ajout" method="post">
 		
 			<div class="form-group">
-				<label for="email">Email</label>
+				<label for="email">Email *</label>
 				<input type="text" name="email" id="email" class="form-control">
 			</div>
 	
 			<div class="form-group">
-				<label for="dateD">Mot de passe</label>
+				<label for="dateD">Mot de passe *</label>
 				<input type="text" name="mdp" id="mdp" class="form-control">
 			</div>
 			

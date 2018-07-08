@@ -16,11 +16,20 @@
 	      </div>
 	      <div class="col-md-8">
 	       <c:if test="${ !empty sessionScope.sessionUtilisateur}">
+            		
             		<div class="custom-control custom-checkbox">
 		  			<input type="checkbox" class="custom-control-input" id="customCheck1">
 		  			<label class="custom-control-label" for="customCheck1">Sécurisée avec mot de passe</label>
 		  		</div>
 		  		<input type="text" class="form-control" name="mdpfield" id="mdpfield" placeholder="mot de passe pour le lien" style="display:none;">
+		  		
+		  		<div class="custom-control custom-checkbox">
+		  			<input type="checkbox" class="custom-control-input" id="customCheck2">
+		  			<label class="custom-control-label" for="customCheck2">Nombre de clique max</label>
+		  		</div>
+		  		<input type="number" class="form-control" name="maxfield" id="maxfield" style="display:none;">
+		  		
+		  		
     			</c:if>
 	      		
 	      </div> 	
@@ -44,6 +53,13 @@ $('.custom-checkbox').click(function(){
 	} else {
 	    $("#mdpfield").hide();
 	    $("#mdpfield").val("");
+	}
+	
+	if(document.getElementById('customCheck2').checked) {
+	    $("#maxfield").show();
+	} else {
+	    $("#maxfield").hide();
+	    $("#maxfield").val("");
 	}
 })
 

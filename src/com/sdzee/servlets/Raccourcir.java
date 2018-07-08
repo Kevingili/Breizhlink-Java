@@ -28,7 +28,19 @@ public class Raccourcir extends HttpServlet {
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String url = request.getParameter(CHAMP_URL);
-		String password_url = request.getParameter("mdpfield");
+		String password_url = "";
+		password_url = request.getParameter("mdpfield");
+		String maxfield = request.getParameter("maxfield");
+		
+		
+		if(password_url == null) {
+			password_url = "";
+		}
+		if(maxfield == null) {
+			maxfield = "0";
+		}
+		
+		System.out.println("max = "+maxfield);
 		System.out.println("mot de passe = "+password_url);
 		System.out.println(url);
 		System.out.println("raccourcir ok");
@@ -49,7 +61,7 @@ public class Raccourcir extends HttpServlet {
 			
 			
 
-			String query1 = "insert into Lien (url_full, url_short, id_user, password_url) values (?, ?, ?, ?)";
+			String query1 = "insert into Lien (url_full, url_short, id_user, password_url, max_nb_clique) values (?, ?, ?, ?, ?)";
 			PreparedStatement pst1 = conn.prepareStatement(query1);
 			pst1.setString(1, url);
 			pst1.setString(2, url_short);
@@ -66,6 +78,7 @@ public class Raccourcir extends HttpServlet {
 			 System.out.println("id = "+id_current);
 			 pst1.setInt(3, id_current);
 			 pst1.setString(4, password_url);
+			 pst1.setString(5, maxfield);
 			
 			pst1.execute();
 			pst1.close();

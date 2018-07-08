@@ -6,7 +6,7 @@
 				
 				<div class="row">
 					<div class="col-md-2">
-						<label for="nom">Adresse email <span class="requis">*</span></label>
+						<label for="nom">Adresse email <span class="requis"></span></label>
 					</div>
 					<div class="col-md-4">
 						<input class="form-control" type="email" id="email" name="email" value="<c:out value="${utilisateur.email}"/>" size="20" maxlength="60" />
@@ -20,7 +20,7 @@
                 
                 <div class="row">
 					<div class="col-md-2">
-						<label for="motdepasse">Mot de passe <span class="requis">*</span></label>
+						<label for="motdepasse">Mot de passe <span class="requis"></span></label>
 					</div>
 					<div class="col-md-4">
 						 <input class="form-control" type="password" id="motdepasse" name="motdepasse" value="" size="20" maxlength="20" />
