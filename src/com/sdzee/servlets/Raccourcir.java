@@ -2,6 +2,7 @@ package com.sdzee.servlets;
 
 import java.io.IOException;
 import java.security.SecureRandom;
+import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.sdzee.bdd.SqlConnection;
 import com.sdzee.beans.Utilisateur;
 @WebServlet("/Raccourcir")
 public class Raccourcir extends HttpServlet {
@@ -39,16 +41,14 @@ public class Raccourcir extends HttpServlet {
 		if(maxfield == null) {
 			maxfield = "0";
 		}
-		
-		System.out.println("max = "+maxfield);
-		System.out.println("mot de passe = "+password_url);
-		System.out.println(url);
-		System.out.println("raccourcir ok");
+		if(maxfield == "") {
+			maxfield = "0";
+		}
 		
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			java.sql.Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/java", "toto", "toto");
-			System.out.println("ok");
+			Connection conn = null;
+			conn = SqlConnection.dbConnector(); //Connexion à la base de données
 
 			String AB = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
 			SecureRandom rnd = new SecureRandom();

@@ -1,5 +1,6 @@
 package com.sdzee.forms;
 
+import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -8,6 +9,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.sdzee.bdd.SqlConnection;
 import com.sdzee.beans.Lien;
 import com.sdzee.beans.Utilisateur;
 
@@ -53,8 +55,9 @@ public final class ConnexionForm {
         //verif base
         try {
 			Class.forName("com.mysql.jdbc.Driver");
-			java.sql.Connection conn = DriverManager.getConnection(request.getServletContext().getInitParameter("db-url"), request.getServletContext().getInitParameter("db-user"), request.getServletContext().getInitParameter("db-password"));
-			//System.out.println("ok");
+			Connection conn = null;
+			conn = SqlConnection.dbConnector(); //Connexion à la base de données
+			//java.sql.Connection conn = DriverManager.getConnection(request.getServletContext().getInitParameter("db-url"), request.getServletContext().getInitParameter("db-user"), request.getServletContext().getInitParameter("db-password"));
 
 			String query = "SELECT * FROM Utilisateur WHERE email = ? AND password = ?";
 			PreparedStatement pst = conn.prepareStatement(query);
@@ -64,7 +67,6 @@ public final class ConnexionForm {
 			
 			if(!rs.next()) {
 				 resultat = "Échec de la connexion.";
-				// throw new Exception( "Utilisateur ou mot de passe incorrecte" );
 				 setErreur( CHAMP_PASS, "Utilisateur ou mot de passe incorrecte");
 			} else {
 				 resultat = "Succès de la connexion.";
@@ -84,18 +86,14 @@ public final class ConnexionForm {
         return utilisateur;
     }
 
-    /**
-     * Valide l'adresse email saisie.
-     */
+
     private void validationEmail( String email ) throws Exception {
         if ( email != null && !email.matches( "([^.@]+)(\\.[^.@]+)*@([^.@]+\\.)+([^.@]+)" ) ) {
             throw new Exception( "Merci de saisir une adresse mail valide." );
         }
     }
 
-    /**
-     * Valide le mot de passe saisi.
-     */
+
     private void validationMotDePasse( String motDePasse ) throws Exception {
         if ( motDePasse != null ) {
             if ( motDePasse.length() < 3 ) {
@@ -106,17 +104,12 @@ public final class ConnexionForm {
         }
     }
 
-    /*
-     * Ajoute un message correspondant au champ spécifié à la map des erreurs.
-     */
+
     private void setErreur( String champ, String message ) {
         erreurs.put( champ, message );
     }
 
-    /*
-     * Méthode utilitaire qui retourne null si un champ est vide, et son contenu
-     * sinon.
-     */
+
     private static String getValeurChamp( HttpServletRequest request, String nomChamp ) {
         String valeur = request.getParameter( nomChamp );
         if ( valeur == null || valeur.trim().length() == 0 ) {

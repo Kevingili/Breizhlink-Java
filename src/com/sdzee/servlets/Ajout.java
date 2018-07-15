@@ -1,6 +1,7 @@
 package com.sdzee.servlets;
 
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.sdzee.bdd.SqlConnection;
 import com.sdzee.beans.Utilisateur;
 
 /**
@@ -49,20 +51,9 @@ public class Ajout extends HttpServlet {
 		
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			java.sql.Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/java", "toto", "toto");
-			System.out.println("ok");
+			Connection conn = null;
+			conn = SqlConnection.dbConnector(); //Connexion à la base de données
 
-			//String query = "SELECT * FROM Visite";
-			//PreparedStatement pst = conn.prepareStatement(query);
-			//ResultSet rs = pst.executeQuery();
-
-			//while (rs.next()) {
-			//	System.out.println(rs.getString("nomEtudiant"));
-			//}
-			//rs.close();
-			//pst.close();
-			System.out.println(email);
-			System.out.println(mdp);
 			String query1 = "insert into Utilisateur (email, password) values (?, ?)";
 			PreparedStatement pst1 = conn.prepareStatement(query1);
 			pst1.setString(1, email);

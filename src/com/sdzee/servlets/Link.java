@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.sdzee.bdd.SqlConnection;
+
 /**
  * Servlet implementation class Link
  */
@@ -31,10 +33,11 @@ public class Link extends HttpServlet {
 		int nb_clique = 0;
 		int nb_max_clique = 0;
 		boolean verif_clique_is_ok = false;
-		System.out.println("bool = "+verif_clique_is_ok);
+
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			java.sql.Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/java", "toto", "toto");
+			Connection conn = null;
+			conn = SqlConnection.dbConnector(); //Connexion à la base de données
 
 			String query1 = "SELECT * FROM Lien WHERE url_short = ?";
 			PreparedStatement pst1 = conn.prepareStatement(query1);
@@ -62,17 +65,13 @@ public class Link extends HttpServlet {
 		} catch (Exception e) {
 			System.out.println("pas ok " + e);
 		}
-		
-		System.out.println("nb_max_clique = "+nb_max_clique);
-		System.out.println("clique = "+nb_clique);
-		
+				
 		if(nb_max_clique == 0) {
 			verif_clique_is_ok = true;
 		} else if(nb_max_clique > nb_clique) {
 			verif_clique_is_ok = true;
 		}
 		
-		System.out.println("verif = " + verif_clique_is_ok);
 		
 	      if(password == "" && verif_clique_is_ok == true) {
 	    	  	response.sendRedirect(lien_full);
@@ -94,13 +93,12 @@ public class Link extends HttpServlet {
 		String lien_full = "";
 		String password = "";
 		
-		System.out.println("password_url = "+password_url);
-		System.out.println("url_short = "+url_short);
-		
+
 		//Verif en base
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			java.sql.Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/java", "toto", "toto");
+			Connection conn = null;
+			conn = SqlConnection.dbConnector(); //Connexion à la base de données
 
 			String query1 = "SELECT * FROM Lien WHERE url_short = ?";
 			PreparedStatement pst1 = conn.prepareStatement(query1);

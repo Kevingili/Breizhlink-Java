@@ -1,6 +1,7 @@
 package com.sdzee.servlets;
 
 import java.io.IOException;
+import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,6 +11,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.sdzee.bdd.SqlConnection;
 
 /**
  * Servlet implementation class Suppression
@@ -37,8 +40,8 @@ public class Suppression extends HttpServlet {
 		System.out.println(id);
 		 try {
 				Class.forName("com.mysql.jdbc.Driver");
-				java.sql.Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/java", "toto", "toto");
-				//System.out.println("ok");
+				Connection conn = null;
+				conn = SqlConnection.dbConnector(); //Connexion à la base de données
 
 				String query = "DELETE FROM Utilisateur WHERE id = ?";
 				PreparedStatement pst = conn.prepareStatement(query);

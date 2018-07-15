@@ -22,15 +22,12 @@ public class TestJDBC {
         } catch ( ClassNotFoundException e ) {
         	System.out.println(e);
         }
-
-        String url = "jdbc:mysql://localhost:3306/java";
-        String utilisateur = "toto";
-        String motDePasse = "toto";
+        
         Connection connexion = null;
         Statement statement = null;
         ResultSet resultat = null;
         try {
-            connexion = DriverManager.getConnection( url, utilisateur, motDePasse );
+            connexion = SqlConnection.dbConnector(); //Connexion à la base de données
 
             statement = connexion.createStatement();
             HttpSession session = request.getSession();
