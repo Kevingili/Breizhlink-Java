@@ -6,6 +6,7 @@ public class Lien {
 	private String urlshort;
 	private String datecreation;
 	private int nbclique;
+	private int expiration;
 	
 	public void setUrlfull(String urlfull) {
 		this.urlfull = urlfull;
@@ -20,6 +21,14 @@ public class Lien {
     public int getNbclique() {
     		return nbclique;
     }
+    
+    public void setExpiration(int expiration) {
+		this.expiration = expiration;
+	}
+    public int getExpiration() {
+    		return expiration;
+    }
+    
     
     public void setUrlshort(String urlshort) {
 		this.urlshort = urlshort;

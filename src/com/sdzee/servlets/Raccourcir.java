@@ -5,6 +5,10 @@ import java.security.SecureRandom;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import static java.lang.Math.toIntExact;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -33,6 +37,26 @@ public class Raccourcir extends HttpServlet {
 		String password_url = "";
 		password_url = request.getParameter("mdpfield");
 		String maxfield = request.getParameter("maxfield");
+		String expiration = request.getParameter("expiration");
+		
+		int date_expiration = 0;
+		if(expiration != "" && expiration != null) {
+			SimpleDateFormat formate = new SimpleDateFormat("yyyy-MM-dd");
+			Date date;
+			
+			try {
+				date = formate.parse(expiration);
+				long timestamp = date.getTime();
+				timestamp = timestamp / 1000;
+				date_expiration = toIntExact(timestamp);
+				System.out.println("timetstamp = "+date_expiration);
+			} catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		}
+		
+		
 		
 		
 		if(password_url == null) {
@@ -61,7 +85,7 @@ public class Raccourcir extends HttpServlet {
 			
 			
 
-			String query1 = "insert into Lien (url_full, url_short, id_user, password_url, max_nb_clique) values (?, ?, ?, ?, ?)";
+			String query1 = "insert into Lien (url_full, url_short, id_user, password_url, max_nb_clique, expiration) values (?, ?, ?, ?, ?, ?)";
 			PreparedStatement pst1 = conn.prepareStatement(query1);
 			pst1.setString(1, url);
 			pst1.setString(2, url_short);
@@ -79,6 +103,7 @@ public class Raccourcir extends HttpServlet {
 			 pst1.setInt(3, id_current);
 			 pst1.setString(4, password_url);
 			 pst1.setString(5, maxfield);
+			 pst1.setInt(6, date_expiration);
 			
 			pst1.execute();
 			pst1.close();

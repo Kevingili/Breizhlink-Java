@@ -1,18 +1,23 @@
 <%@include file="header.jsp" %>
       <!-- Example row of columns -->
-      <form class="row" action="raccourcir" method="post">
+      <form action="raccourcir" method="post">
+      <div class="row">
       
 	      <div class="col-md-2">
 	      	<label>URL à raccourcir</label>
 	      </div>
 	      <div class="col-md-8">
-	      	<input type="text" class="form-control" name="url">
+	      	<input type="text" class="form-control" name="url" id="url">
 	      </div>
 	       <div class="col-md-2">
-	      	<button class="btn btn-primary">Raccourcir</button>
+	      	<button id="bouton-envoi" class="btn btn-primary" style="display:none;">Raccourcir</button>
 	      </div>    	
 	      
-	           <div class="col-md-2">
+
+	      </div>
+	      <div class="row">
+	       <div class="col-md-2">
+	      	
 	      </div>
 	      <div class="col-md-8">
 	       <c:if test="${ !empty sessionScope.sessionUtilisateur}">
@@ -29,10 +34,17 @@
 		  		</div>
 		  		<input type="number" class="form-control" name="maxfield" id="maxfield" style="display:none;">
 		  		
+		  		<div class="custom-control custom-checkbox">
+		  			<input type="checkbox" class="custom-control-input" id="customCheck3">
+		  			<label class="custom-control-label" for="customCheck3">Expiration</label>
+		  		</div>
+		  		<input type="date" class="form-control" name="expiration" id="expiration" style="display:none;">
+		  		
 		  		
     			</c:if>
 	      		
-	      </div> 	
+	      </div> 
+	      </div>	
       </form>
 
 	<br>
@@ -47,6 +59,10 @@
 	</div>
 
 <script type="text/javascript">
+$( "#url" ).keypress(function() {
+	$('#bouton-envoi').show();
+});
+	
 $('.custom-checkbox').click(function(){
 	if(document.getElementById('customCheck1').checked) {
 	    $("#mdpfield").show();
@@ -60,6 +76,12 @@ $('.custom-checkbox').click(function(){
 	} else {
 	    $("#maxfield").hide();
 	    $("#maxfield").val("");
+	}
+	if(document.getElementById('customCheck3').checked) {
+	    $("#expiration").show();
+	} else {
+	    $("#expiration").hide();
+	    $("#expiration").val("");
 	}
 })
 

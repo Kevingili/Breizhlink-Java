@@ -7,6 +7,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
+import java.util.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -32,8 +34,10 @@ public class Link extends HttpServlet {
 		String lien_short = "";
 		int nb_clique = 0;
 		int nb_max_clique = 0;
+		int expiration = 0;
 		boolean verif_clique_is_ok = false;
-
+		boolean verif_expiration = false;
+		
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection conn = null;
@@ -50,6 +54,7 @@ public class Link extends HttpServlet {
 				lien_short = rs.getString("url_short");
 				password = rs.getString("password_url");
 				nb_clique = rs.getInt("nb_clique");
+				expiration = rs.getInt("expiration");
 				nb_max_clique = rs.getInt("max_nb_clique");
 			}
 			rs.close();
@@ -72,12 +77,23 @@ public class Link extends HttpServlet {
 			verif_clique_is_ok = true;
 		}
 		
+
+		int unixTimeStamp = (int) (System.currentTimeMillis() / 1000L);
 		
-	      if(password == "" && verif_clique_is_ok == true) {
+		System.out.println("ts actuel "+unixTimeStamp);
+		
+		if(expiration == 0) {
+			verif_expiration = true;
+		} else if(unixTimeStamp < expiration) {
+			verif_expiration = true;
+		}
+		
+		
+	      if(password == "" && verif_clique_is_ok == true && verif_expiration == true) {
 	    	  	response.sendRedirect(lien_full);
 	      } else {
 	    	  request.setAttribute("url", lien_short);
-	    	  if(verif_clique_is_ok == false) {
+	    	  if(verif_clique_is_ok == false || verif_expiration == false) {
 	    		  request.setAttribute("maxclique", "Désolée, cette URL n'est plus disponible");
 	    	  }
 	    		
